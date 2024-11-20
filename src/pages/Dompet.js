@@ -1,117 +1,104 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function Dompet() {
-  const [saldoBCA, setSaldoBCA] = useState(0);
-  const [saldoBRI, setSaldoBRI] = useState(0);
-  const [saldoDANA, setSaldoDANA] = useState(0);
-  const [saldoGopay, setSaldoGopay] = useState(0);
-  const [saldoShopeePay, setSaldoShopeePay] = useState(0);
-  const [saldoTunai, setSaldoTunai] = useState(0);
+  // Inisialisasi daftar dompet dengan saldo awal
+  var [wallets, setWallets] = useState([
+    { name: "BCA", balance: 0},
+    { name: "BRI", balance: 0 },
+    { name: "DANA", balance: 0 },
+    { name: "Gopay", balance: 0 },
+    { name: "ShopeePay", balance: 0 },
+    { name: "Tunai", balance: 0 },
+  ]);
 
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedWallet, setSelectedWallet] = useState('');
-  const [newAmount, setNewAmount] = useState('');
+  const [selectedWallet, setSelectedWallet] = useState("");
+  const [newAmount, setNewAmount] = useState("");
+  const [newWalletName, setNewWalletName] = useState("");
 
   const bukaFormDompet = (wallet) => {
-    setSelectedWallet(wallet);
+    setSelectedWallet(wallet || "");
+    setNewWalletName(wallet || "");
     setIsFormVisible(true);
   };
 
   const tutupForm = () => {
     setIsFormVisible(false);
-    setNewAmount('');
+    setNewAmount("");
+    setNewWalletName("");
   };
 
   const perbaruiDompet = () => {
-    if (selectedWallet && newAmount) {
-      switch (selectedWallet) {
-        case 'BCA':
-          setSaldoBCA(saldoBCA + parseInt(newAmount));
-          break;
-        case 'BRI':
-          setSaldoBRI(saldoBRI + parseInt(newAmount));
-          break;
-        case 'DANA':
-          setSaldoDANA(saldoDANA + parseInt(newAmount));
-          break;
-        case 'Gopay':
-          setSaldoGopay(saldoGopay + parseInt(newAmount));
-          break;
-        case 'ShopeePay':
-          setSaldoShopeePay(saldoShopeePay + parseInt(newAmount));
-          break;
-        case 'Tunai':
-          setSaldoTunai(saldoTunai + parseInt(newAmount));
-          break;
-        default:
-          break;
-      }
-      tutupForm();
-    } else {
-      alert('Masukkan jumlah yang valid');
+    if (!newWalletName.trim() || !newAmount || isNaN(newAmount)) {
+      alert("Masukkan nama dompet dan jumlah yang valid!");
+      return;
     }
+
+    const amount = parseFloat(newAmount);
+    setWallets((prevWallets) => {
+      const walletIndex = prevWallets.findIndex(
+        (wallet) => wallet.name === newWalletName
+      );
+
+      if (walletIndex !== -1) {
+        // Jika dompet sudah ada, perbarui saldo
+        const updatedWallets = [...prevWallets];
+        updatedWallets[walletIndex].balance += amount;
+        return updatedWallets;
+      } else {
+        // Jika dompet baru, tambahkan ke daftar
+        return [...prevWallets, { name: newWalletName, balance: amount }];
+      }
+    });
+
+    tutupForm();
   };
 
   return (
-    <section id="tab1" style={{ display: isFormVisible ? 'none' : 'block' }}>
+    <section>
       <div className="containersaldo">
         <div className="saldo">
           <h2>Saldo Anda</h2>
-          <p id="saldo-total">Rp. {saldoBCA + saldoBRI + saldoDANA + saldoGopay + saldoShopeePay + saldoTunai}</p>
+          <p>
+            Rp.{" "}
+            {wallets
+              .reduce((total, wallet) => total + wallet.balance, 0)
+              .toLocaleString("id-ID")}
+          </p>
         </div>
-        <div className="daftar-dompet" id="daftar-dompet">
-          <div className="item-dompet" onClick={() => bukaFormDompet('BCA')}>
-            <span>BCA</span>
-            <span id="saldo-BCA">Rp. {saldoBCA}</span>
-            <i className="fas fa-chevron-right"></i>
-          </div>
-          <div className="item-dompet" onClick={() => bukaFormDompet('BRI')}>
-            <span>BRI</span>
-            <span id="saldo-BRI">Rp. {saldoBRI}</span>
-            <i className="fas fa-chevron-right"></i>
-          </div>
-          <div className="item-dompet" onClick={() => bukaFormDompet('DANA')}>
-            <span>DANA</span>
-            <span id="saldo-DANA">Rp. {saldoDANA}</span>
-            <i className="fas fa-chevron-right"></i>
-          </div>
-          <div className="item-dompet" onClick={() => bukaFormDompet('Gopay')}>
-            <span>Gopay</span>
-            <span id="saldo-Gopay">Rp. {saldoGopay}</span>
-            <i className="fas fa-chevron-right"></i>
-          </div>
-          <div className="item-dompet" onClick={() => bukaFormDompet('ShopeePay')}>
-            <span>ShopeePay</span>
-            <span id="saldo-ShopeePay">Rp. {saldoShopeePay}</span>
-            <i className="fas fa-chevron-right"></i>
-          </div>
-          <div className="item-dompet" onClick={() => bukaFormDompet('Tunai')}>
-            <span>Tunai</span>
-            <span id="saldo-Tunai">Rp. {saldoTunai}</span>
-            <i className="fas fa-chevron-right"></i>
-          </div>
+
+        <div className="daftar-dompet">
+          {wallets.map((wallet, index) => (
+            <div
+              key={index}
+              className="item-dompet"
+              onClick={() => bukaFormDompet(wallet.name)}
+            >
+              <span>{wallet.name}</span>
+              <span>Rp. {wallet.balance.toLocaleString("id-ID")}</span>
+            </div>
+          ))}
         </div>
-        <div className="tambah-dompet" onClick={() => bukaFormDompet('')}>
-          <i className="fas fa-plus"></i>
+
+        <div className="tambah-dompet" onClick={() => bukaFormDompet("")}>
+          +
         </div>
       </div>
 
       {isFormVisible && (
-        <div className="wadah-form" id="wadah-form">
+        <div className="wadah-form">
           <div className="form">
-            <h3>Nama Dompet: {selectedWallet}</h3>
+            <h3>Nama Dompet</h3>
             <input
-              id="nama-dompet"
               type="text"
               placeholder="Masukkan nama dompet"
-              disabled
-              value={selectedWallet}
+              value={newWalletName}
+              onChange={(e) => setNewWalletName(e.target.value)}
             />
             <h3>Nominal</h3>
             <input
-              id="jumlah-dompet"
-              type="text"
-              placeholder="Rp."
+              type="number"
+              placeholder="Masukkan jumlah"
               value={newAmount}
               onChange={(e) => setNewAmount(e.target.value)}
             />

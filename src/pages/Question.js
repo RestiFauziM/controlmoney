@@ -7,7 +7,8 @@ function Question() {
 
   // Fungsi untuk toggle (mengubah) tampilan jawaban
   const handleToggle = (index) => {
-    setOpenIndex(openIndex === index ? null : index); // Tutup jika FAQ yang sama diklik, buka jika FAQ baru yang diklik
+    // Toggle openIndex untuk membuka dan menutup jawaban
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
@@ -25,8 +26,10 @@ function Question() {
                   style={{ cursor: 'pointer' }} // Pastikan cursor menunjukkan klik
                 >
                   <p>{item.question}</p>
+                  {/* Menampilkan icon chevron untuk menunjukkan apakah pertanyaan dibuka atau ditutup */}
                   <i className={`fas fa-chevron-${openIndex === index ? 'down' : 'right'}`}></i>
                 </div>
+                {/* Menampilkan jawaban hanya jika openIndex sesuai dengan index dari pertanyaan yang dipilih */}
                 {openIndex === index && (
                   <div className="faq-content">
                     <p>{item.answer}</p>

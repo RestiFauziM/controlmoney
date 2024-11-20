@@ -60,52 +60,52 @@ function Profil() {
       )}
       
       {editProfileVisible && (
-        <section id="editProfile">
-          <div className="containerprofiledit">
-            <div className="profile-header">
-              <div className="profile-pic"></div>
-              <h1 className="group-name">kelompok6b</h1>
-            </div>
+  <section id="editProfile">
+    <div className="kontainerProfil">
+      <div className="headerProfil">
+        <div className="fotoProfil"></div>
+        <h1 className="namaGrup">kelompok6b</h1>
+      </div>
 
-            <form className="profile-form">
-              <div className="form-groupprofil">
-                <label htmlFor="account-name">Nama Akun</label>
-                <div className="input-wrapper">
-                  <input type="text" id="account-name" placeholder="Masukkan Nama Akun" />
-                  <span className="edit-icon">✎</span>
-                </div>
-              </div>
-              <div className="form-groupprofil">
-                <label htmlFor="email">Email</label>
-                <div className="input-wrapper">
-                  <input type="email" id="email" placeholder="Masukkan Email" />
-                  <span className="edit-icon">✎</span>
-                </div>
-              </div>
-              <div className="form-groupprofil">
-                <label htmlFor="phone">No Telepon</label>
-                <div className="input-wrapper">
-                  <input type="tel" id="phone" placeholder="Masukkan No Telepon" />
-                  <span className="edit-icon">✎</span>
-                </div>
-              </div>
-              <div className="form-groupprofil">
-                <label htmlFor="password">Kata Sandi</label>
-                <div className="input-wrapper">
-                  <input type="password" id="password" placeholder="Masukkan Kata Sandi" />
-                  <i className="fa-solid fa-eye-slash toggle-password" onClick={togglePassword}></i>
-                  <span className="edit-icon">✎</span>
-                </div>
-              </div>
-
-              <div className="form-buttonsprofil">
-                <button type="button" className="cancel-button" onClick={() => setEditProfileVisible(false)}>Batal</button>
-                <button type="submit" className="save-button">Simpan</button>
-              </div>
-            </form>
+      <form className="formProfil">
+        <div className="formGrupProfil">
+          <label htmlFor="account-name">Nama Akun</label>
+          <div className="inputWrapper">
+            <input type="text" id="account-name" placeholder="Masukkan Nama Akun" />
+            <span className="ikonEdit">✎</span>
           </div>
-        </section>
-      )}
+        </div>
+        <div className="formGrupProfil">
+          <label htmlFor="email">Email</label>
+          <div className="inputWrapper">
+            <input type="email" id="email" placeholder="Masukkan Email" />
+            <span className="ikonEdit">✎</span>
+          </div>
+        </div>
+        <div className="formGrupProfil">
+          <label htmlFor="phone">No Telepon</label>
+          <div className="inputWrapper">
+            <input type="tel" id="phone" placeholder="Masukkan No Telepon" />
+            <span className="ikonEdit">✎</span>
+          </div>
+        </div>
+        <div className="formGrupProfil">
+          <label htmlFor="password">Kata Sandi</label>
+          <div className="inputWrapper">
+            <input type="password" id="password" placeholder="Masukkan Kata Sandi" />
+            <i className="fa-solid fa-eye-slash togglePassword" onClick={togglePassword}></i>
+            <span className="ikonEdit">✎</span>
+          </div>
+        </div>
+
+        <div className="tombolFormProfil">
+          <button type="button" className="tombolBatal" onClick={() => setEditProfileVisible(false)}>Batal</button>
+          <button type="submit" className="tombolSimpan">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </section>
+)}
     </>
   );
 }

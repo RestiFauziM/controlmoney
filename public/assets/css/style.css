@@ -705,11 +705,10 @@ p {
 }
 
 .faq-content {
-  display: none;
   padding: 10px;
-  background: #c7bed86c;
-  border-radius: 5px;
-  margin-top: 10px;
+  background-color: #f4f4f434;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
 .faq-content p {
@@ -2459,4 +2458,229 @@ form {
 
 .add-note:hover {
   text-decoration: underline;
+}
+
+.wadah-form {
+  display: flex; /* Atur display menjadi flex saat ditampilkan */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #6a00ff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000; /* Pastikan ada di atas elemen lain */
+  width: 300px;
+}
+
+.overlay-hub {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-hub {
+  background: rgba(128, 128, 128, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 700px;
+  position: relative;
+  color: #fff;
+}
+
+.close-button-hub {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Grafik.css */
+.grafik-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.grafik-popup {
+  background: #2d0f85;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.grafik-popup button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.grafik-popup p {
+  cursor: pointer;
+  padding: 10px;
+  font-size: 18px;
+  color: #fff;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.grafik-popup hr {
+  margin: 10px 0;
+  border: none;
+  border-top: 2px solid #ccc;
+}
+
+/*Edit profil*/
+#editProfile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures it fills the full height of the viewport */
+}
+
+.kontainerProfil {
+  width: 900px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  color: #fff;
+  z-index: 1;
+}
+
+.headerProfil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.fotoProfil {
+  width: 150px;
+  height: 150px;
+  background-color: #f56;
+  border-radius: 50%;
+}
+
+.namaGrup {
+  font-size: 24px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  width: 900px;
+}
+
+.formProfil {
+  width: 100%;
+}
+
+.formGrupProfil {
+  margin-bottom: 15px;
+}
+
+.formGrupProfil label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputWrapper input {
+  width: 900px;
+  padding: 10px 35px 10px 15px;
+  background-color: #37156f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.inputWrapper input::placeholder {
+  color: #fff;
+  opacity: 0.7;
+}
+
+.ikonEdit {
+  font-size: 16px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%) scaleX(-1);
+  color: #fff;
+}
+
+.tombolFormProfil {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.tombolBatal,
+.tombolSimpan {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  display: center;
+}
+
+.tombolBatal {
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+}
+
+.tombolSimpan {
+  background-color: #2d0f85;
+  color: #fff;
+  text-align: center;
+}
+
+.togglePassword {
+  position: absolute;
+  top: 50%;
+  right: 35px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
 }

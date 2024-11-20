@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Grafik() {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const navigate = useNavigate();
   const [formType, setFormType] = useState(null);
 
   const togglePopup = () => {
@@ -10,9 +11,12 @@ function Grafik() {
   };
 
   const handleFormSelection = (type) => {
-    setFormType(type);
-    setIsPopupVisible(false); // Tutup pop-up setelah memilih
-    alert(`Form yang dipilih: ${type}`); // Opsional: Tambahkan aksi untuk menampilkan form yang sesuai
+    setIsPopupVisible(false);
+    if (type === 'Pemasukan') {
+      navigate('/pemasukan');
+    } else if (type === 'Pengeluaran') {
+      navigate('/pengeluaran');
+    }
   };
 
   return (
@@ -83,8 +87,9 @@ function Grafik() {
       </div>
 
       {isPopupVisible && (
-        <div id="kelola-popupForm2" className="kelola-popup2">
-          <div className="kelola-form-content" onClick={(e) => e.stopPropagation()}>
+        <div className="grafik-popup-overlay">
+          <div className="grafik-popup">
+            <button onClick={togglePopup}>&times;</button>
             <p id="kelola-pemasukanBtn" onClick={() => handleFormSelection('Pemasukan')}>Pemasukan</p>
             <hr />
             <p id="kelola-pengeluaranBtn" onClick={() => handleFormSelection('Pengeluaran')}>Pengeluaran</p>

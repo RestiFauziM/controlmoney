@@ -1,12 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; 
 
 function Pengeluaran() {
+  const navigate = useNavigate(); 
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); 
+   
+    navigate('/grafik'); 
+  };
+
   return (
-    <section id="pengeluaran" style={{ display: 'none' }}>
+    <section id="pengeluaran" style={{ display: 'block' }}>
       <div className="inputkelola-header-and-form">
         <h2>Pengeluaran</h2>
         <div className="inputkelola-form-and-illustration">
-          <form id="expense-form">
+          <form id="expense-form" onSubmit={handleSubmit}> 
             <div className="inputkelola-form-group">
               <label className="inputkelola-date-label">Tanggal</label>
               <input type="date" placeholder="Tanggal-Bulan-Tahun" required />

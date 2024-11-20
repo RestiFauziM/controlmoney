@@ -39,14 +39,14 @@ function Index() {
         </header>
         <section className="tips" style={{ display: "flex", gap: "20px", justifyContent: "center" }}>
           <div className="column" style={{ flex: 1 }}>
-            <article className="tip color-1" style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f9f9f9" }}>
+            <article className="tip color-1">
               <h3>Batasi Pengeluaran Hiburan</h3>
               <p>
                 Sediakan anggaran khusus untuk hiburan dan usahakan untuk tidak melebihi batasnya. Dengan cara ini, Anda
                 bisa lebih mudah menabung.
               </p>
             </article>
-            <article className="tip color-2" style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f1f1f1" }}>
+            <article className="tip color-2">
               <h3>Manfaatkan Diskon & Promo</h3>
               <p>
                 Gunakan diskon atau promosi untuk berbelanja kebutuhan sehari-hari agar lebih hemat dan tetap bisa
@@ -55,14 +55,14 @@ function Index() {
             </article>
           </div>
           <div className="column" style={{ flex: 1 }}>
-            <article className="tip color-3" style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f9f9f9" }}>
+            <article className="tip color-3">
               <h3>Catat Pengeluaran Harian</h3>
               <p>
                 Dengan mencatat pengeluaran harian, Anda akan lebih mudah mengerti pengeluaran dan mengelola
                 penyimpanan.
               </p>
             </article>
-            <article className="tip color-4" style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f1f1f1" }}>
+            <article className="tip color-4">
               <h3>Tabung pada Awal Bulan</h3>
               <p>
                 Setiap kali mendapat penghasilan, sisihkan sebagian untuk ditabung di awal bulan agar lebih teratur.
@@ -89,14 +89,14 @@ function Index() {
             />
           </aside>
           <div className="column" style={{ flex: 1 }}>
-            <article className="tip color-1" style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f9f9f9" }}>
+            <article className="tip color-1" >
               <h3>Buat Daftar Belanja</h3>
               <p>
                 Sebelum berbelanja, buat daftar kebutuhan agar tidak tergoda membeli barang di luar rencana. Ini bisa
                 membantu menghemat pengeluaran.
               </p>
             </article>
-            <article className="tip color-2" style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f1f1f1" }}>
+            <article className="tip color-2">
               <h3>Sisihkan Dana Darurat</h3>
               <p>
                 Selalu sisihkan sebagian pendapatan untuk dana darurat. Ini penting untuk menghadapi situasi tak
@@ -105,14 +105,14 @@ function Index() {
             </article>
           </div>
           <div className="column" style={{ flex: 1 }}>
-            <article className="tip color-3" style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f9f9f9" }}>
+            <article className="tip color-3">
               <h3>Evaluasi Pengeluaran</h3>
               <p>
                 Lakukan evaluasi terhadap pengeluaran tidak terduga dan identifikasi mana yang bisa dipotong untuk
                 menghemat lebih banyak.
               </p>
             </article>
-            <article className="tip color-4" style={{ padding: "15px", borderRadius: "8px", backgroundColor: "#f1f1f1" }}>
+            <article className="tip color-4">
               <h3>Gunakan Aplikasi Keuangan</h3>
               <p>
                 Gunakan Control Money untuk tips terbaik dalam mengelola keuangan, sehingga Anda dapat mencapai tujuan
