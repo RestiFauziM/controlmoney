@@ -1,11 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useUserContext } from '../context/UserContext'; 
 import { useNavigate } from 'react-router-dom';
 
 function Kelola() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const [nominal, setNominal] = useState('');  
+  const { totalPengeluaran, updateTotalPengeluaran } = useUserContext(); 
 
-  const handleSimpanClick = () => {
-    navigate('/grafik');
+  const handleSimpanClick = async () => {
+    const parsedNominal = parseInt(nominal);
+    if (isNaN(parsedNominal)) {
+      alert("Masukkan nominal yang valid");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8081/add-budget', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nominal: parsedNominal }),  
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Data successfully saved:', data);
+
+        updateTotalPengeluaran(parsedNominal);
+
+        navigate('/grafik');
+      } else {
+        console.error('Failed to save data');
+      }
+    } catch (error) {
+      console.error('Error occurred:', error);
+    }
   };
 
   return (
@@ -21,7 +51,13 @@ function Kelola() {
         <label htmlFor="nominal" className="kelola-label">Nominal</label>
         <div className="kelola-input-group">
           <span>Rp. </span>
-          <input type="number" id="nominal" placeholder="0" />
+          <input
+            type="number"
+            id="nominal"
+            placeholder=""
+            value={nominal}  
+            onChange={(e) => setNominal(e.target.value)}  
+          />
         </div>
         <button className="kelola-button" onClick={handleSimpanClick}>Simpan</button>
       </div>

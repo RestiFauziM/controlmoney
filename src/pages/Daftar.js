@@ -1,21 +1,40 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // To handle navigation
+import { useNavigate } from 'react-router-dom'; // Untuk navigasi
+import axios from 'axios'; // Pastikan Axios terinstal
 
 function Daftar() {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); // Initialize navigation hook
+  const [values, setValues] = useState({ // State untuk input
+    fullName: '',
+    username: '',
+    email: '',
+    password: '',
+  });
+  const navigate = useNavigate();
 
-  // Toggle password visibility
+  // Toggle visibility password
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  // Update state setiap input berubah
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("Registration successful");
-
-    navigate('/index'); 
+    axios.post('http://localhost:8081/daftar', values)
+      .then(res => {
+        console.log(res);
+        alert("Pendaftaran berhasil! Silakan masuk.");
+        navigate('/masuk');  // Redirect ke halaman masuk
+      })
+      .catch(err => {
+        console.log(err);
+        alert("Terjadi kesalahan, coba lagi.");
+      });
   };
 
   return (
@@ -28,30 +47,57 @@ function Daftar() {
             <div className="input-row-daftar">
               <div className="input-group-daftar">
                 <label>Nama Lengkap</label>
-                <input type="text" placeholder="Masukkan Nama Lengkap" required />
+                <input
+                  type="text"
+                  name="fullName" // Sesuai dengan key di state
+                  placeholder="Masukkan Nama Lengkap"
+                  value={values.fullName}
+                  onChange={handleChange} // Handle perubahan input
+                  required
+                />
               </div>
               <div className="input-group-daftar">
                 <label>Nama Pengguna</label>
-                <input type="text" placeholder="Buat Nama Pengguna" required />
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Buat Nama Pengguna"
+                  value={values.username}
+                  onChange={handleChange}
+                  required
+                />
               </div>
             </div>
             <div className="input-row-daftar">
               <div className="input-group-daftar">
                 <label>Email</label>
-                <input type="email" placeholder="Masukkan Email" required />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Masukkan Email"
+                  value={values.email}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div className="input-group-daftar">
                 <label>Kata Sandi</label>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  id="password-daftar"
-                  placeholder="Buat Kata Sandi"
-                  required
-                />
-                <i
-                  className={`fa-solid fa-eye${showPassword ? '' : '-slash'} toggle-password-daftar`}
-                  onClick={togglePassword}
-                ></i>
+                <div className="password-container-daftar">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    id="password-daftar"
+                    placeholder="Buat Kata Sandi"
+                    value={values.password}
+                    onChange={handleChange}
+                    required
+                  />
+                  <i
+                    className={`fa-solid fa-eye${showPassword ? '' : '-slash'} toggle-password-daftar`}
+                    onClick={togglePassword}
+                    style={{ cursor: 'pointer' }} // Make the icon clickable
+                  ></i>
+                </div>
                 <p className="password-hint-daftar">
                   Kata sandi minimal terdiri dari 6 digit angka atau huruf
                 </p>

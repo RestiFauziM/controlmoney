@@ -1,25 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import axios from 'axios';
+import { UserContext } from '../context/UserContext';
 
 function Masuk() {
-  // State to handle password visibility
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); // Initialize navigation hook
+  const [values, setValues] = useState({ email: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const navigate = useNavigate();
+  const { setUser } = useContext(UserContext); // Gunakan setUser dari konteks
 
-  // Function to toggle password visibility
-  const togglePassword = () => {
-    setShowPassword(!showPassword);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
   };
 
-  // Handle form submission
+  const togglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission (page reload)
+    e.preventDefault();
 
-    // Add your login logic here (e.g., validate user credentials)
-    console.log("Login successful");
-
-    // After successful login, navigate to the Index page
-    navigate('/index'); // Redirect to index page after login
+    axios.post('http://localhost:8081/masuk', values)
+      .then(res => {
+        if (res.data.Masuk) {
+          alert("Login berhasil! Selamat datang.");
+          setUser(res.data.user); // Simpan data user ke konteks global
+          navigate('/'); // Arahkan ke halaman profil
+        } else {
+          alert("Email atau kata sandi salah");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Terjadi kesalahan, coba lagi.");
+      });
   };
 
   return (
@@ -30,24 +48,33 @@ function Masuk() {
           <p>Halo! Selamat datang kembali di Control Money 👋</p>
           <form onSubmit={handleSubmit}>
             <div className="input-group-masuk">
-              <label>Email atau Nama Pengguna</label>
-              <input
-                type="text"
-                placeholder="Masukkan Email atau Nama Pengguna"
-                required
-              />
+              <label>Email</label>
+              <div className="password-container-masuk">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Masukkan Email"
+                  value={values.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
             <div className="input-group-masuk">
               <label>Kata Sandi</label>
               <div className="password-container-masuk">
                 <input
                   type={showPassword ? 'text' : 'password'}
+                  name="password"
                   placeholder="Masukkan Kata Sandi"
+                  value={values.password}
+                  onChange={handleChange}
                   required
                 />
                 <i
                   className={`fa-solid fa-eye${showPassword ? '' : '-slash'} toggle-password-masuk`}
                   onClick={togglePassword}
+                  style={{ cursor: 'pointer' }} // Make the icon clickable
                 ></i>
               </div>
               <p className="password-hint-masuk">

@@ -20,6 +20,7 @@ import Grafik from './pages/Grafik';
 import Profil from './pages/Profil';
 import Pemasukan from './pages/Pemasukan';
 import Pengeluaran from './pages/Pengeluaran';
+import { UserProvider } from './context/UserContext';
 
 function App() {
   return (

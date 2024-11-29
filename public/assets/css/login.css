@@ -280,6 +280,9 @@ p {
 .form-section-masuk {
   flex: 1;
   padding: 30px;
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .image-section-masuk {
@@ -292,13 +295,15 @@ p {
   color: #4d3084;
 }
 
-.image-section-masuk .logo-masuk {
+.logo-masuk {
   width: 300px;
   margin-bottom: 15px;
+  margin-right: -300px;
 }
 
-.image-section-masuk .computer-masuk {
+.computer-masuk {
   width: 450px;
+  margin-right: -300px;
 }
 
 h2 {
@@ -348,13 +353,13 @@ p {
   width: 265%;
 }
 
-.password-container-masuk .toggle-password-masuk {
+.toggle-password-masuk {
   position: absolute;
-  right: 10px;
-  top: 35%;
-  cursor: pointer;
-  color: #4d3084;
-  font-size: 18px;
+  right: -300px; /* Adjust this value to move the icon more to the right or left if needed */
+  top: 50%;
+  transform: translateY(-50%); /* Vertically center the icon */
+  font-size: 18px; /* Adjust size of the icon */
+  color: #000; /* Icon color */
 }
 
 .password-hint-masuk {

@@ -1,13 +1,38 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 function Pemasukan() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); 
-   
-    navigate('/grafik'); 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      date: e.target.date.value,
+      walletName: e.target.walletName.value,
+      source: e.target.source.value,
+      amount: e.target.amount.value,
+      notes: e.target.notes.value,
+    };
+
+    try {
+      const response = await fetch('http://localhost:8081/add-income', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert('Pemasukan berhasil disimpan!');
+        navigate('/grafik'); // Redirect ke halaman grafik
+      } else {
+        alert('Gagal menyimpan pemasukan.');
+      }
+    } catch (error) {
+      console.error('Error submitting income:', error);
+    }
   };
 
   return (
@@ -15,7 +40,7 @@ function Pemasukan() {
       <div className="inputkelola-header-and-form">
         <h2>Pemasukan</h2>
         <div className="inputkelola-form-and-illustration">
-          <form id="income-form" onSubmit={handleSubmit}> 
+          <form id="income-form" onSubmit={handleSubmit}>
             <div className="inputkelola-form-group">
               <label className="inputkelola-date-label" htmlFor="date">Tanggal</label>
               <input type="date" id="date" placeholder="Tanggal-Bulan-Tahun" required />

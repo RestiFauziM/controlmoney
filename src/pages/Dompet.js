@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 function Dompet() {
-  // Inisialisasi daftar dompet dengan saldo awal
-  var [wallets, setWallets] = useState([
-    { name: "BCA", balance: 0},
+  const [wallets, setWallets] = useState([
+    { name: "BCA", balance: 0 },
     { name: "BRI", balance: 0 },
     { name: "DANA", balance: 0 },
     { name: "Gopay", balance: 0 },
@@ -28,28 +28,48 @@ function Dompet() {
     setNewWalletName("");
   };
 
-  const perbaruiDompet = () => {
-    if (!newWalletName.trim() || !newAmount || isNaN(newAmount)) {
+  const formatRupiah = (angka) => {
+    return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
+  const handleAmountChange = (e) => {
+    const input = e.target.value.replace(/\D/g, ""); // Hanya ambil angka
+    setNewAmount(formatRupiah(input)); // Format angka sebagai rupiah
+  };
+
+  const perbaruiDompet = async () => {
+    if (!newWalletName.trim() || !newAmount) {
       alert("Masukkan nama dompet dan jumlah yang valid!");
       return;
     }
 
-    const amount = parseFloat(newAmount);
-    setWallets((prevWallets) => {
-      const walletIndex = prevWallets.findIndex(
-        (wallet) => wallet.name === newWalletName
-      );
+    const amount = parseInt(newAmount.replace(/\./g, ""), 10); // Ubah kembali ke angka murni
 
-      if (walletIndex !== -1) {
-        // Jika dompet sudah ada, perbarui saldo
-        const updatedWallets = [...prevWallets];
-        updatedWallets[walletIndex].balance += amount;
-        return updatedWallets;
-      } else {
-        // Jika dompet baru, tambahkan ke daftar
-        return [...prevWallets, { name: newWalletName, balance: amount }];
-      }
-    });
+    try {
+      const response = await axios.post('http://localhost:8081/add-wallet', {
+        name: newWalletName,
+        balance: amount,
+      });
+
+      setWallets((prevWallets) => {
+        const walletIndex = prevWallets.findIndex(
+          (wallet) => wallet.name === newWalletName
+        );
+
+        if (walletIndex !== -1) {
+          const updatedWallets = [...prevWallets];
+          updatedWallets[walletIndex].balance = amount;
+          return updatedWallets;
+        } else {
+          return [...prevWallets, { name: newWalletName, balance: amount }];
+        }
+      });
+
+      alert(response.data.Message);
+    } catch (error) {
+      console.error('Error adding wallet:', error);
+      alert("Gagal menyimpan data dompet ke server.");
+    }
 
     tutupForm();
   };
@@ -97,10 +117,10 @@ function Dompet() {
             />
             <h3>Nominal</h3>
             <input
-              type="number"
+              type="text"
               placeholder="Masukkan jumlah"
               value={newAmount}
-              onChange={(e) => setNewAmount(e.target.value)}
+              onChange={handleAmountChange}
             />
             <button onClick={perbaruiDompet}>Tambahkan</button>
             <button onClick={tutupForm}>Batal</button>

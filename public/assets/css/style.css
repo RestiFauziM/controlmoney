@@ -2684,3 +2684,15 @@ form {
   color: #fff;
   font-size: 16px;
 }
+.inputWrapper {
+  position: relative;
+}
+
+.toggle-password-profil {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  cursor: pointer;
+}
