@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';  // Import Link
+import { Link } from 'react-router-dom';  
 
 function Main() {
   return (
@@ -25,7 +25,6 @@ function Main() {
           </button>
       </div>
       <div className="card-image">
-        {/* Menggunakan path relatif dari folder public */}
         <img src="/assets/images/card Homepage.png" alt="Card Homepage" />
       </div>
     </section>

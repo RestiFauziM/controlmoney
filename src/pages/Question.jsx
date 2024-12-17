@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Question() {
-  // State untuk melacak FAQ mana yang sedang dibuka
   const [openIndex, setOpenIndex] = useState(null);
 
-  // Fungsi untuk toggle (mengubah) tampilan jawaban
   const handleToggle = (index) => {
-    // Toggle openIndex untuk membuka dan menutup jawaban
     setOpenIndex(openIndex === index ? null : index);
   };
 
@@ -17,19 +14,16 @@ function Question() {
         <h1 className="faq-title">Pertanyaan yang Sering Diajukan</h1>
         <div className="content-container">
           <div className="containerfaq">
-            {/* Menampilkan FAQ */}
             {faqItems.map((item, index) => (
               <div key={index}>
                 <div 
                   className="faq-item" 
                   onClick={() => handleToggle(index)} 
-                  style={{ cursor: 'pointer' }} // Pastikan cursor menunjukkan klik
+                  style={{ cursor: 'pointer' }} 
                 >
                   <p>{item.question}</p>
-                  {/* Menampilkan icon chevron untuk menunjukkan apakah pertanyaan dibuka atau ditutup */}
                   <i className={`fas fa-chevron-${openIndex === index ? 'down' : 'right'}`}></i>
                 </div>
-                {/* Menampilkan jawaban hanya jika openIndex sesuai dengan index dari pertanyaan yang dipilih */}
                 {openIndex === index && (
                   <div className="faq-content">
                     <p>{item.answer}</p>
@@ -38,7 +32,6 @@ function Question() {
               </div>
             ))}
 
-            {/* Footer FAQ */}
             <div className="footerfaq">
               <p>
                 Pertanyaanmu tidak ada di atas?{' '}
@@ -53,7 +46,6 @@ function Question() {
   );
 }
 
-// Data FAQ
 const faqItems = [
   {
     question: 'Apa fungsi fitur "Dompet" di Control Money?',

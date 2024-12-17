@@ -1,25 +1,49 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import axios from 'axios';
 
 function Profil() {
-  const { user, setUser } = useContext(UserContext); // Ambil data user dan setUser dari konteks
+  const { user, setUser } = useContext(UserContext);
+  const [profileImage, setProfileImage] = useState(null);
+  const navigate = useNavigate();
   const [profileVisible, setProfileVisible] = useState(true);
   const [editProfileVisible, setEditProfileVisible] = useState(false);
   const [formData, setFormData] = useState({
-    username: user?.username || '', // Ganti fullName dengan username
+    username: user?.username || '',
     email: user?.email || '',
     password: '',
   });
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State untuk toggle password visibility
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isLanguageMenuVisible, setIsLanguageMenuVisible] = useState(false); 
+  const [language, setLanguage] = useState('id'); 
+
+  useEffect(() => {
+    const savedProfileImage = localStorage.getItem('profileImage');
+    if (savedProfileImage) {
+      setProfileImage(savedProfileImage); 
+    }
+  }, []); 
 
   const handleClick = (section) => {
     if (section === 'Edit Profil Pengguna') {
       setProfileVisible(false);
       setEditProfileVisible(true);
+    } else if (section === 'Hubungi Kami' || section === 'Privasi & Keamanan') {
+      navigate('/hubungi-kami');
+    } else if (section === 'Notifikasi') {
+      navigate('/riwayat');
+    } else if (section === 'Bahasa') {
+      setIsLanguageMenuVisible(!isLanguageMenuVisible); 
     } else {
       alert(`Menu ${section} dipilih`);
     }
+  };
+
+  const handleLanguageChange = (lang) => {
+    setLanguage(lang);
+    setIsLanguageMenuVisible(false);
+    alert(`Bahasa dipilih: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}`);
   };
 
   const handleChange = (e) => {
@@ -40,7 +64,7 @@ function Profil() {
         alert("Profil berhasil diperbarui");
         setUser({
           ...user,
-          username: formData.username, // Update username, bukan name
+          username: formData.username,
           email: formData.email,
         });
         setEditProfileVisible(false);
@@ -53,7 +77,17 @@ function Profil() {
   };
 
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible); // Toggle visibility
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file); 
+      setProfileImage(imageUrl);
+
+      localStorage.setItem('profileImage', imageUrl);
+    }
   };
 
   if (!user) {
@@ -72,10 +106,26 @@ function Profil() {
             <div className="containerprofil">
               <div className="profile">
                 <div className="avatar">
-                  <div className="profile-pic"></div>
-                  <div className="edit-iconprofil">✏️</div>
+                  <div
+                    className="profile-pic"
+                    style={{
+                      backgroundImage: `url(${profileImage || '/default-avatar.png'})`, 
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                  ></div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    style={{ display: 'none' }}
+                    id="file-input"
+                  />
+                  <label htmlFor="file-input" className="edit-iconprofil">
+                    ✏️
+                  </label>
                 </div>
-                <h1>{user.username}</h1> {/* Tampilkan username */}
+                <h1>{user.username}</h1>
                 <p>{user.email}</p>
               </div>
               <div className="menu">
@@ -90,6 +140,13 @@ function Profil() {
                 <div className="menu-item" onClick={() => handleClick('Bahasa')}>
                   <span>🌐 Bahasa</span>
                   <span className="arrow">❯</span>
+                  {isLanguageMenuVisible && (
+                    <div className="language-dropdown">
+                      <ul>
+                        <li onClick={() => handleLanguageChange('id')}>Bahasa Indonesia</li>
+                      </ul>
+                    </div>
+                  )}
                 </div>
                 <div className="menu-item" onClick={() => handleClick('Hubungi Kami')}>
                   <span>📞 Hubungi kami</span>
@@ -109,7 +166,29 @@ function Profil() {
         <section id="editProfile">
           <div className="kontainerProfil">
             <div className="headerProfil">
-              <div className="fotoProfil"></div>
+              <div className="fotoProfil">
+                <div
+                  className="profile-pic"
+                  style={{
+                    backgroundImage: `url(${profileImage || '/default-avatar.png'})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    width: '100px',
+                    height: '100px',
+                    borderRadius: '50%',
+                  }}
+                ></div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  style={{ display: 'none' }}
+                  id="file-input-edit"
+                />
+                <label htmlFor="file-input-edit" className="edit-iconprofil">
+                  ✏️
+                </label>
+              </div>
             </div>
             <form className="formProfil" onSubmit={handleProfileUpdate}>
               <div className="formGrupProfil">

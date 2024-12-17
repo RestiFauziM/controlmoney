@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Untuk navigasi
-import axios from 'axios'; // Pastikan Axios terinstal
+import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios'; 
 
 function Daftar() {
   const [showPassword, setShowPassword] = useState(false);
-  const [values, setValues] = useState({ // State untuk input
+  const [values, setValues] = useState({ 
     fullName: '',
     username: '',
     email: '',
@@ -12,24 +12,21 @@ function Daftar() {
   });
   const navigate = useNavigate();
 
-  // Toggle visibility password
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  // Update state setiap input berubah
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     axios.post('http://localhost:8081/daftar', values)
       .then(res => {
         console.log(res);
         alert("Pendaftaran berhasil! Silakan masuk.");
-        navigate('/masuk');  // Redirect ke halaman masuk
+        navigate('/masuk');  
       })
       .catch(err => {
         console.log(err);
@@ -49,10 +46,10 @@ function Daftar() {
                 <label>Nama Lengkap</label>
                 <input
                   type="text"
-                  name="fullName" // Sesuai dengan key di state
+                  name="fullName" 
                   placeholder="Masukkan Nama Lengkap"
                   value={values.fullName}
-                  onChange={handleChange} // Handle perubahan input
+                  onChange={handleChange} 
                   required
                 />
               </div>
@@ -95,7 +92,7 @@ function Daftar() {
                   <i
                     className={`fa-solid fa-eye${showPassword ? '' : '-slash'} toggle-password-daftar`}
                     onClick={togglePassword}
-                    style={{ cursor: 'pointer' }} // Make the icon clickable
+                    style={{ cursor: 'pointer' }} 
                   ></i>
                 </div>
                 <p className="password-hint-daftar">

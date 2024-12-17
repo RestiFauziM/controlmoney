@@ -1,6 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Index() {
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate('/kelola'); 
+  };
+
   return (
     <section id="tab" style={{ display: "block" }}>
       <section className="hero" style={{ textAlign: "center", padding: "20px" }}>
@@ -13,13 +20,14 @@ function Index() {
           <button
             className="start-btn"
             style={{
-              backgroundColor: "3b008a",
+              backgroundColor: "#3b008a",
               color: "white",
               padding: "10px 20px",
               border: "none",
               borderRadius: "5px",
               cursor: "pointer",
             }}
+            onClick={handleButtonClick} 
           >
             Mulai Kelola Keuangan
           </button>

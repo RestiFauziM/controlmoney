@@ -278,11 +278,10 @@ p {
 }
 
 .form-section-masuk {
-  flex: 1;
-  padding: 30px;
-  max-width: 350px;
-  margin: 0 auto;
+  max-width: 450px;
+  margin: auto;
   padding: 20px;
+  background-color: none;
 }
 
 .image-section-masuk {
@@ -295,32 +294,33 @@ p {
   color: #4d3084;
 }
 
-.logo-masuk {
+.image-section-masuk .logo-masuk {
   width: 300px;
   margin-bottom: 15px;
-  margin-right: -300px;
 }
 
-.computer-masuk {
+.image-section-masuk .computer-masuk {
   width: 450px;
-  margin-right: -300px;
 }
 
 h2 {
   color: #ffffff;
   font-size: 28px;
   margin-bottom: 15px;
+  margin-left: -80px;
 }
 
 p {
   color: #ffffff;
   margin-bottom: 25px;
+  margin-left: 20px;
   font-size: 16px;
 }
 
 .input-group-masuk {
   position: relative;
   margin-bottom: 20px;
+  margin-right: auto;
 }
 
 .input-group-masuk label {
@@ -329,7 +329,7 @@ p {
 }
 
 .input-group-masuk input {
-  width: 130%;
+  width: 100%;
   padding: 12px;
   margin-top: 5px;
   border: 1px solid #b59dd9;
@@ -337,6 +337,8 @@ p {
   background-color: #7a5af8;
   color: #ffffff;
   font-size: 16px;
+  margin-right: auto;
+  flex-direction: column;
 }
 
 .input-group-masuk input::placeholder {
@@ -347,19 +349,23 @@ p {
 
 .password-container-masuk {
   position: relative;
+  margin: auto;
 }
 
 .password-container-masuk input {
-  width: 265%;
+  width: 200%;
+  margin-top: auto;
+  align-items: end;
 }
 
-.toggle-password-masuk {
+.password-container-masuk .toggle-password-masuk {
   position: absolute;
-  right: -300px; /* Adjust this value to move the icon more to the right or left if needed */
-  top: 50%;
-  transform: translateY(-50%); /* Vertically center the icon */
-  font-size: 18px; /* Adjust size of the icon */
-  color: #000; /* Icon color */
+  right: 10px;
+  top: 35%;
+  cursor: pointer;
+  color: #4d3084;
+  font-size: 18px;
+  margin-right: -200px;
 }
 
 .password-hint-masuk {
@@ -403,13 +409,14 @@ p {
 
 .btn-masuk {
   width: 100%;
-  padding: 12px;
+  padding: 12px 25px;
   background-color: #2d0f85;
   color: white;
   border: none;
   border-radius: 5px;
   font-size: 18px;
   cursor: pointer;
+  margin-right: 5px;
 }
 
 .btn-masuk:hover {
@@ -479,4 +486,204 @@ p {
   width: 400px;
   max-width: 100%;
   height: auto;
+}
+/* Responsif untuk tablet dan perangkat layar menengah (max-width: 1199px) */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .container-daftar,
+  .container-masuk {
+    flex-direction: row;
+    padding: 30px;
+  }
+
+  .form-section-daftar,
+  .form-section-masuk {
+    width: 400px;
+    padding: 20px;
+    margin: auto;
+  }
+
+  .image-section-daftar,
+  .image-section-masuk {
+    width: 200px;
+    display: flex;
+  }
+  .image-section-daftar img,
+  .image-section-masuk img {
+    max-width: 300px;
+    display: block;
+    margin-left: auto;
+  }
+
+  .hero-content {
+    padding: 30px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+
+  .start-btn {
+    font-size: 1rem;
+    padding: 15px 30px;
+    width: auto;
+  }
+
+  nav ul {
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  nav ul li {
+    margin: 0 15px;
+  }
+
+  .auth-buttons .register-btn,
+  .auth-buttons .login-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+
+  .btn-daftar,
+  .btn-masuk {
+    font-size: 18px;
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-daftar,
+  .container-masuk {
+    flex-direction: column;
+    transform: translateX(0);
+    padding: 20px;
+  }
+
+  .form-section-daftar,
+  .form-section-masuk,
+  .image-section-daftar,
+  .image-section-masuk {
+    flex: unset;
+    width: 90%;
+    padding: 10px;
+    margin: auto;
+  }
+
+  .image-section-daftar img,
+  .image-section-masuk img {
+    max-width: 300px;
+    display: none;
+  }
+
+  .hero-content {
+    padding: 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .start-btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    width: 90%;
+    align-items: center;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav ul li {
+    margin: 10px 0;
+  }
+
+  .auth-buttons .register-btn,
+  .auth-buttons .login-btn {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+
+  .btn-daftar,
+  .btn-masuk {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+
+/* Responsif untuk ponsel (max-width: 480px) */
+@media (max-width: 480px) {
+  .hero {
+    padding: 20px;
+    height: auto;
+  }
+
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-content p {
+    font-size: 0.9rem;
+  }
+
+  nav {
+    flex-direction: column;
+    padding: 10px;
+    height: auto;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-group-daftar input,
+  .password-container-masuk input {
+    width: 100%;
+  }
+
+  .btn-daftar,
+  .btn-masuk {
+    font-size: 14px;
+  }
+
+  .start-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .container-daftar,
+  .container-masuk {
+    padding: 10px;
+  }
+
+  .image-section-daftar img,
+  .image-section-masuk img {
+    width: 80%;
+  }
+}
+
+/* Layar desktop besar (min-width: 1200px) */
+@media (min-width: 1200px) {
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+
+  .hero-content p {
+    font-size: 1.2rem;
+  }
+
+  .start-btn {
+    font-size: 1.2rem;
+    padding: 20px 40px;
+  }
 }

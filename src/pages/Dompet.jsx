@@ -1,20 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function Dompet() {
-  const [wallets, setWallets] = useState([
-    { name: "BCA", balance: 0 },
-    { name: "BRI", balance: 0 },
-    { name: "DANA", balance: 0 },
-    { name: "Gopay", balance: 0 },
-    { name: "ShopeePay", balance: 0 },
-    { name: "Tunai", balance: 0 },
-  ]);
+  const [wallets, setWallets] = useState(() => {
+    const savedWallets = localStorage.getItem("wallets");
+    return savedWallets ? JSON.parse(savedWallets) : [
+      { name: "BCA", balance: 0 },
+      { name: "BRI", balance: 0 },
+      { name: "DANA", balance: 0 },
+      { name: "Gopay", balance: 0 },
+      { name: "ShopeePay", balance: 0 },
+      { name: "Tunai", balance: 0 },
+    ];
+  });
 
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedWallet, setSelectedWallet] = useState("");
   const [newAmount, setNewAmount] = useState("");
   const [newWalletName, setNewWalletName] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("wallets", JSON.stringify(wallets));
+  }, [wallets]);
 
   const bukaFormDompet = (wallet) => {
     setSelectedWallet(wallet || "");
@@ -33,8 +40,8 @@ function Dompet() {
   };
 
   const handleAmountChange = (e) => {
-    const input = e.target.value.replace(/\D/g, ""); // Hanya ambil angka
-    setNewAmount(formatRupiah(input)); // Format angka sebagai rupiah
+    const input = e.target.value.replace(/\D/g, "");
+    setNewAmount(formatRupiah(input));
   };
 
   const perbaruiDompet = async () => {
@@ -43,10 +50,10 @@ function Dompet() {
       return;
     }
 
-    const amount = parseInt(newAmount.replace(/\./g, ""), 10); // Ubah kembali ke angka murni
+    const amount = parseInt(newAmount.replace(/\./g, ""), 10);
 
     try {
-      const response = await axios.post('http://localhost:8081/add-wallet', {
+      const response = await axios.post("http://localhost:8081/add-wallet", {
         name: newWalletName,
         balance: amount,
       });
@@ -67,7 +74,7 @@ function Dompet() {
 
       alert(response.data.Message);
     } catch (error) {
-      console.error('Error adding wallet:', error);
+      console.error("Error adding wallet:", error);
       alert("Gagal menyimpan data dompet ke server.");
     }
 

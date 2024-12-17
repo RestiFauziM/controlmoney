@@ -1,16 +1,46 @@
-import React, { useState } from 'react';
-import { useUserContext } from '../context/UserContext'; 
+import React, { useState, useEffect } from 'react';
+import { useUserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 function Kelola() {
   const navigate = useNavigate();
-  const [nominal, setNominal] = useState('');  
-  const { totalPengeluaran, updateTotalPengeluaran } = useUserContext(); 
+  const [nominal, setNominal] = useState('');
+  const [totalBudget, setTotalBudget] = useState(0); 
+  const [sisaBudget, setSisaBudget] = useState(0); 
+  const { updateTotalPengeluaran } = useUserContext();
+
+  const formatRupiah = (angka) => {
+    if (!angka) return '';
+    return angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  };
+
+  const removeDot = (angka) => {
+    return angka.replace(/\./g, '');
+  };
+
+  useEffect(() => {
+    const fetchBudget = async () => {
+      try {
+        const response = await fetch('http://localhost:8081/budget');
+        if (response.ok) {
+          const data = await response.json();
+          const total = data.Data.reduce((sum, item) => sum + item.nominal, 0); 
+          setTotalBudget(total);
+          setSisaBudget(total); 
+        } else {
+          console.error('Failed to fetch budget');
+        }
+      } catch (error) {
+        console.error('Error occurred:', error);
+      }
+    };
+    fetchBudget();
+  }, []);
 
   const handleSimpanClick = async () => {
-    const parsedNominal = parseInt(nominal);
+    const parsedNominal = parseInt(removeDot(nominal)); 
     if (isNaN(parsedNominal)) {
-      alert("Masukkan nominal yang valid");
+      alert('Masukkan nominal yang valid');
       return;
     }
 
@@ -20,7 +50,7 @@ function Kelola() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nominal: parsedNominal }),  
+        body: JSON.stringify({ nominal: parsedNominal }),
       });
 
       if (response.ok) {
@@ -28,6 +58,9 @@ function Kelola() {
         console.log('Data successfully saved:', data);
 
         updateTotalPengeluaran(parsedNominal);
+
+        setTotalBudget((prevTotal) => prevTotal + parsedNominal);
+        setSisaBudget((prevSisa) => prevSisa + parsedNominal);
 
         navigate('/grafik');
       } else {
@@ -48,15 +81,16 @@ function Kelola() {
       </div>
       <div className="kelola-form-container">
         <h3 className="kelola-form-title">ATUR BUDGET BULANAN</h3>
+
         <label htmlFor="nominal" className="kelola-label">Nominal</label>
         <div className="kelola-input-group">
           <span>Rp. </span>
           <input
-            type="number"
+            type="text"  
             id="nominal"
-            placeholder=""
-            value={nominal}  
-            onChange={(e) => setNominal(e.target.value)}  
+            placeholder="Masukan Nominal"
+            value={nominal}
+            onChange={(e) => setNominal(formatRupiah(e.target.value.replace(/\D/g, '')))} 
           />
         </div>
         <button className="kelola-button" onClick={handleSimpanClick}>Simpan</button>

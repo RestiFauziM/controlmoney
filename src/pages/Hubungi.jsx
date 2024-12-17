@@ -21,6 +21,12 @@ function Hubungi() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsPopupOpen(true); 
+    setFormData({
+      email: "",
+      username: "",
+      phone: "",
+      message: "",
+    }); // Reset form data setelah submit
   };
 
   return (

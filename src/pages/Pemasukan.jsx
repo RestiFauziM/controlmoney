@@ -1,20 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Pemasukan() {
+  const [nominal, setNominal] = useState('');
   const navigate = useNavigate();
+
+  const formatRupiah = (nominal) => {
+    let numberString = nominal.replace(/\D/g, '');
+
+    return numberString.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  };
+
+  const handleNominalChange = (e) => {
+    const value = e.target.value;
+    setNominal(formatRupiah(value));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formData = {
       date: e.target.date.value,
       walletName: e.target.walletName.value,
       source: e.target.source.value,
-      amount: e.target.amount.value,
+      amount: parseInt(nominal.replace(/\./g, ''), 10), 
       notes: e.target.notes.value,
     };
-
+  
+    const wallets = JSON.parse(localStorage.getItem("wallets")) || [];
+  
+    const walletIndex = wallets.findIndex(
+      (wallet) => wallet.name.toLowerCase() === formData.walletName.toLowerCase()
+    );
+  
+    if (walletIndex === -1) {
+      alert("Nama dompet tidak ditemukan!");
+      return;
+    }
+  
+    wallets[walletIndex].balance += formData.amount;
+    localStorage.setItem("wallets", JSON.stringify(wallets));
+  
     try {
       const response = await fetch('http://localhost:8081/add-income', {
         method: 'POST',
@@ -23,17 +49,17 @@ function Pemasukan() {
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (response.ok) {
         alert('Pemasukan berhasil disimpan!');
-        navigate('/grafik'); // Redirect ke halaman grafik
+        navigate('/grafik'); 
       } else {
         alert('Gagal menyimpan pemasukan.');
       }
     } catch (error) {
       console.error('Error submitting income:', error);
     }
-  };
+  };  
 
   return (
     <section id="pemasukan" style={{ display: 'block' }}>
@@ -69,6 +95,8 @@ function Pemasukan() {
                 type="text"
                 id="amount"
                 placeholder="Rp."
+                value={nominal}
+                onChange={handleNominalChange}
                 required
               />
             </div>
@@ -86,7 +114,7 @@ function Pemasukan() {
             </div>
           </form>
           <div className="inputkelola-illustration">
-            <img src="/assets/images/computer.png" alt="Smartphone" />
+            <img src="/assets/images/pemasukan.png" alt="Smartphone" />
           </div>
         </div>
       </div>
